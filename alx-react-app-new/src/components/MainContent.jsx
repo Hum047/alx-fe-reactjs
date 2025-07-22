@@ -1,11 +1,8 @@
-import React from 'react';
-
 function MainContent() {
   return (
-    <main style={{ backgroundColor: '#f0f0f0', padding: '20px' }}>
-      <p style={{ fontSize: '18px' }}>
-        Welcome to this React app. Explore profiles of amazing people!
-      </p>
+    <main style={{ padding: '1rem', backgroundColor: '#f9f9f9' }}>
+      <h2>Main Content</h2>
+      <p>I love to visit New York, Paris, and Tokyo.</p>
     </main>
   );
 }

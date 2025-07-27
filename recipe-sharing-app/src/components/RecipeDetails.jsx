@@ -1,11 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import useRecipeStore from '../store/recipeStore';
-import EditRecipeForm from './EditRecipeForm';
-import DeleteRecipeButton from './DeleteRecipeButton';
+import useRecipeStore from './recipeStore';
 
 function RecipeDetails() {
-  const { id } = useParams();
+  const { id } = useParams(); // get recipe id from URL
   const recipe = useRecipeStore((state) =>
     state.recipes.find((r) => r.id === id)
   );
@@ -13,11 +11,11 @@ function RecipeDetails() {
   if (!recipe) return <p>Recipe not found.</p>;
 
   return (
-    <div>
-      <h1>{recipe.title}</h1>
-      <p>{recipe.description}</p>
-      <EditRecipeForm recipe={recipe} />
-      <DeleteRecipeButton id={id} />
+    <div style={{ padding: '1rem', border: '1px solid #ccc' }}>
+      <h2>{recipe.title}</h2>
+      <p><strong>ID:</strong> {recipe.id}</p>
+      <p><strong>Description:</strong> {recipe.description}</p>
+      {/* You can add EditRecipeForm and DeleteRecipeButton here later */}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import useRecipeStore from '../store/recipeStore';
+import { Link } from 'react-router-dom';
+import useRecipeStore from '../components/recipeStore';
 
 function RecipeList() {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -14,19 +13,8 @@ function RecipeList() {
       ) : (
         <ul>
           {filteredRecipes.map((recipe) => (
-            <li key={recipe.id} style={{ marginBottom: '1rem' }}>
-              <strong>{recipe.title}</strong>
-              <div>
-                <button onClick={() => navigate(`/recipe/${recipe.id}`)}>
-                  View
-                </button>
-                <button onClick={() => navigate(`/edit/${recipe.id}`)}>
-                  Edit
-                </button>
-                <button onClick={() => navigate(`/delete/${recipe.id}`)}>
-                  Delete
-                </button>
-              </div>
+            <li key={recipe.id}>
+              <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
             </li>
           ))}
         </ul>

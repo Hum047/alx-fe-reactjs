@@ -1,54 +1,50 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-const useRecipeStore = create((set, get) => ({
+const useRecipeStore = create((set) => ({
   recipes: [],
+  favorites: [],
+  recommendations: [],
   searchTerm: '',
   filteredRecipes: [],
 
-  addRecipe: (recipe) =>
+  setRecipes: (newRecipes) => set({ recipes: newRecipes }),
+  addRecipe: (recipe) => set((state) => ({ recipes: [...state.recipes, recipe] })),
+  updateRecipe: (updatedRecipe) =>
     set((state) => ({
-      recipes: [...state.recipes, recipe],
-      filteredRecipes: [...state.recipes, recipe].filter((r) =>
-        r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      recipes: state.recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      ),
+    })),
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((recipe) => recipe.id !== id),
+    })),
+
+  setSearchTerm: (term) => set({ searchTerm: term }),
+  filterRecipes: () =>
+    set((state) => ({
+      filteredRecipes: state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       ),
     })),
 
-  deleteRecipe: (id) =>
-    set((state) => {
-      const updated = state.recipes.filter((r) => r.id !== id);
-      return {
-        recipes: updated,
-        filteredRecipes: updated.filter((r) =>
-          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
-      };
-    }),
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...new Set([...state.favorites, recipeId])],
+    })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
 
-  updateRecipe: (updatedRecipe) =>
+  generateRecommendations: () =>
     set((state) => {
-      const updated = state.recipes.map((r) =>
-        r.id === updatedRecipe.id ? updatedRecipe : r
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.5
       );
-      return {
-        recipes: updated,
-        filteredRecipes: updated.filter((r) =>
-          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
-      };
+      return { recommendations: recommended };
     }),
-
-  setSearchTerm: (term) => {
-    set({ searchTerm: term });
-    get().filterRecipes(); // trigger filtering
-  },
-
-  filterRecipes: () => {
-    const { recipes, searchTerm } = get();
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ filteredRecipes: filtered });
-  },
 }));
 
 export default useRecipeStore;

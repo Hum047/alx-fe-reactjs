@@ -4,6 +4,7 @@ import useRecipeStore from '../components/recipeStore';
 
 function RecipeList() {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
 
   return (
     <div>
@@ -15,6 +16,9 @@ function RecipeList() {
           {filteredRecipes.map((recipe) => (
             <li key={recipe.id}>
               <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+              <button onClick={() => addFavorite(recipe.id)} style={{ marginLeft: '1rem' }}>
+                Add to Favorites
+              </button>
             </li>
           ))}
         </ul>

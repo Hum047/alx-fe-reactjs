@@ -1,6 +1,6 @@
 // src/App.jsx
 import RegistrationForm from "./components/RegistrationForm.jsx";
-import FormikForm from "./components/formikForm.jsx";
+import FormikForm from "./components/FormikForm.jsx"; // ✅ Fix case
 
 function Divider() {
   return <hr style={{ margin: "24px 0", border: "none", borderTop: "1px solid #eee" }} />;

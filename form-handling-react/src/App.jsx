@@ -1,5 +1,5 @@
 // src/App.jsx
-import RegistrationForm from "./components/RegistrationForm.jsx";
+import RegistrationForm from "./components/RegistrationForm.js";
 import FormikForm from "./components/FormikForm.jsx"; // ✅ Fix case
 
 function Divider() {
